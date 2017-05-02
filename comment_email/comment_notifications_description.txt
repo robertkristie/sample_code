@@ -1,0 +1,5 @@
+Comment Notification description
+
+This was written to solve a problem pretty unique to Cisco Blogs and is tied in with the SCAC plugin.  With SCAC, admins can assign authors and editors to only have access to post in certain categories.  The way Cisco Blogs works is that editors are more or less admins for their specific categories.  Each category can have multiple editors.
+
+With this plugin, whenever a comment is posted in a category, all the editors for that category recieve a comment notification email.

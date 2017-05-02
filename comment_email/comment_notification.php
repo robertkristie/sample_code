@@ -8,7 +8,9 @@ Author: Rob Kristie
 Author URI: https://github.com/robertkristie
 */
 
-//Emails for when a comment is put in moderation
+/*
+	Emails for when a comment is put in moderation for editors of that category
+*/
 function moderation($comment_id) {
 	global $wpdb;
 	//$mna_settings = mna_read_options();
@@ -76,7 +78,9 @@ function moderation($comment_id) {
 
 add_action('comment_post', 'moderation');
 
-//emails for when a comment in moderation is approved
+/*
+	emails for when a comment in moderation is approved
+*/
 
 
 function approved_alert($comment) {
@@ -129,14 +133,14 @@ function approved_alert($comment) {
 	$notify_message .= sprintf( __('Delete it: %s'), "http://blogs.cisco.com/wp-admin/comment.php?action=cdc&c=$comment_id" ) . "\r\n";
 	$notify_message .= sprintf( __('Spam it: %s'), "http://blogs.cisco.com/wp-admin/comment.php?action=cdc&dt=spam&c=$comment_id" ) . "\r\n";
 	$subject = 'A comment has been approved in the ' . $catname . ' blog';
-
-		@wp_mail($emails, $subject, $notify_message);
-    	
+	@wp_mail($emails, $subject, $notify_message);   	
 }
 
 add_action('comment_unapproved_to_approved', 'approved_alert');
 
-//emails for when a comment is auto approved
+/*
+	emails for when a comment is auto approved
+*/
 
 function comment_alert($comment) {
 	global $wpdb;
@@ -192,18 +196,16 @@ function comment_alert($comment) {
 		$subject = 'A comment has been posted and auto approved in the ' . $catname . ' blog';
 
 		@wp_mail($emails, $subject, $notify_message);
-
-	}
-	
-	
+	}	
 }
 
 add_action ('comment_post', 'comment_alert');
 
 
-//Adds custom page to select admins to receive all emails
+/*
+	Adds settings page to select admins who want t0 receive all emails
+*/
 
-//add menu item
 add_action( 'admin_menu', 'email_menu' );
 
 function email_menu() {
@@ -212,23 +214,21 @@ function email_menu() {
 function email_options(){
 	$admins = get_users('role=administrator');
 	echo '<p>Select the admins you wish to receive comment notification emails</p>'; ?>
-	<?php echo '<ul>';
-		foreach( $admins as $admin) {
-		echo '<li>';
-			$user_id = $admin->ID;
-  			$key = 'admin_email';
-  			$single = true;
-  			$user_admin = get_user_meta( $user_id, $key, $single ); 
-		?>
-		<input value="true" name="admin_email" type="checkbox"
-		<?php if ($user_admin =='true') { ?> checked="checked"<?php  } ?>
-	</input>
-	<?php echo $admin->first_name; echo " "; echo $admin->last_name;
-	echo '</li>';
-	} 
-	?>
+	<ul>
+		<?php foreach( $admins as $admin) {
+			echo '<li>';
+				$user_id = $admin->ID;
+  				$key = 'admin_email';
+  				$single = true;
+  				$user_admin = get_user_meta( $user_id, $key, $single ); 
+				?>
+				<input value="true" name="admin_email" type="checkbox">
+					<?php if ($user_admin =='true') { ?> checked="checked"<?php  } ?>
+				</input>
+				<?php echo $admin->first_name; echo " "; echo $admin->last_name;
+			echo '</li>';
+		} ?>
 	</ul>
-	</table>
 <?php
 }
 ?>

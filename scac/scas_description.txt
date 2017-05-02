@@ -1,0 +1,9 @@
+Simple Category Access description
+
+This was written by me years ago for a feature pretty unique to Cisco blogs.  A little bit of background:
+
+Cisco blogs is basically one blog site with around 30 different categories, which are treated as their own "blog".  When I was first hired as a contractor, the IT team I was reporting to was dead set against using a WP network install for Cisco Blogs (Why, I don't recall, but I was the only one who knew how WP worked, but as I was a first month contractor no one listened to me).
+
+The situation arose where, with 1500+ authors, they wanted authors and editors to only be allowed to post in the category or categories they were allowed to.  This is basically a dummy proof solution, where the only categories authors or editors can select when they write a post are the ones that are displayed.  There is also a quick little javascript function that auto selects the first category in the array they are assigned to, so nothing gets assigned to Uncategorized.
+
+This could have been written smoother, but this was a rush to have for the launch in 2010, and it still works the same as it did then with no issues whatsoever.  So, it is backwards compatible, and has never had to be changed with WP updates

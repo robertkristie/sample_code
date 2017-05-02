@@ -1,0 +1,7 @@
+Object Store Images description
+
+This plugin was written when I moved our Cisco blogs to an internal OpenShift environment.  Our environment had a max 4gb size, so we had to get a team inside Cisco build an object store.
+
+Our OpenShift uses PHP 5.4 (way out of date) and the object store that team basically used the AWS 1.x SDK (again, way out of date) with I believe an extra option or 2, so this had to be written in a very old style.  It works however, and with it all media uploaded gets moved to the object store, and is referenced there.
+
+I was planning on rewriting this for these samples so you could test it on a current version of S3, but I just did not have enough time.

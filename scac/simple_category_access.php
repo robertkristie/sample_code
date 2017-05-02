@@ -8,11 +8,13 @@ Author: Rob Kristie
 Author URI: https://github.com/robertkristie
 */
 
-
-add_action( 'show_user_profile', 'show_extra_profile_fields' );
-add_action( 'edit_user_profile', 'show_extra_profile_fields');
+/*
+	Shows checkboxes for each category an admin can assign an author or editor to
+*/
+add_action( 'show_user_profile', 'show_category_fields' );
+add_action( 'edit_user_profile', 'show_category_fields');
  
-function show_extra_profile_fields( $user ) { 
+function show_category_fields( $user ) { 
 	if (current_user_can('administrator')){?>
  		<table class="form-table">
 			<tr>
@@ -53,11 +55,15 @@ function show_extra_profile_fields( $user ) {
 	<?php
 	}
 }
+
+/*
+	Saves categories allowed for user in user_meta
+*/
  
-add_action( 'personal_options_update', 'save_extra_profile_fields' );
-add_action( 'edit_user_profile_update', 'save_extra_profile_fields' );
+add_action( 'personal_options_update', 'save_category_fields' );
+add_action( 'edit_user_profile_update', 'save_category_fields' );
  
-function save_extra_profile_fields( $user_id ) {
+function save_category_fields( $user_id ) {
 	if ( !current_user_can( 'edit_user', $user_id ) ) {
 		return false;
 	}
@@ -66,7 +72,7 @@ function save_extra_profile_fields( $user_id ) {
  
 
 /*
- * Show authors only their posts
+ 	Show authors only their posts
  */
 
 function posts_for_current_author($query) {
@@ -85,9 +91,8 @@ add_filter('pre_get_posts', 'posts_for_current_author');
 
 
 /*
- * Show only the Comments MADE BY the current logged user
- * and the Comments MADE TO his/hers posts or to categories current user manages
- * 
+	Show only the Comments MADE BY the current logged user and the Comments MADE TO his/hers posts or to categories current user manages
+ 
  */
 function comment_list_by_user($clauses) {
 
@@ -118,8 +123,8 @@ add_filter('comments_clauses', 'comment_list_by_user');
 
 
 /*
- * Hide all categories with CSS, show allowed categories
- */
+	Hide all categories with CSS, show allowed categories
+*/
 function hide_the_categories(){
 
 	if( is_admin() ) {
@@ -162,7 +167,10 @@ function hide_the_categories(){
 add_action( "admin_head", "hide_the_categories" );
 
 
-//add menu item
+/*
+	Admin page to see which user is assigned to which categories
+*/
+
 add_action( 'admin_menu', 'roles_menu' );
 
 function roles_menu() {
@@ -220,8 +228,13 @@ function roles_options() {
   		}
 	echo '</div>';
 }
+
+/*
+	Auto checks checkbox for first category available to user
+*/
 add_action( 'admin_head-post.php', 'disable_and_check_cat' );
 add_action( 'admin_head-post-new.php', 'disable_and_check_cat' );
+
 
 function disable_and_check_cat() {
 	if( current_user_can('author') || current_user_can('editor') || current_user_can('contributor') ) {
@@ -245,4 +258,5 @@ function disable_and_check_cat() {
 		}
 	}
 }
+
 ?>
